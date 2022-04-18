@@ -1,5 +1,10 @@
 # Audio-Source-Separation
-Course project for the course EE698R: Advanced Topics In Machine Learning offered in the Fall Semester of 2022. We aim to implement the paper on the model architecture "Wave-U-Net"
+
+Course project for **EE698R: Advanced Topics In Machine Learning** offered in Fall Semester ,2022 at IIT Kanpur. This project is related to separating audio sources from a mixture aka **Audio Source Separation task**.
+![image](https://user-images.githubusercontent.com/60062252/163845830-9c836b57-5968-4a09-b0e7-effa5c81e1d4.png)
+ In this project we implemented "Wave-U-Net" model architecture which is a one dimensional adaptation of U-Net for one dimensional audio data in time domain. 
+ 
+![image](https://user-images.githubusercontent.com/60062252/163847113-b33abe93-e6fb-42c2-906d-aa0f8a54e770.png)
 
 - Input Dataset (around 8000 files of 1 sec length each sampled at 16 kHz) - [link](https://drive.google.com/file/d/1hUomPJyG0d9T_xil_R4jObzCNQuBtATU/view?usp=sharing)
 - Output Dataset (around 16000 files - 8000 for background music and 8000 for vocals - of 1 sec length each sampled at 16 kHz) - [link](https://drive.google.com/file/d/1ttJud2MLyjmbs9nqYIAAQESKkORNAGBd/view?usp=sharing)
