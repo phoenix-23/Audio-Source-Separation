@@ -7,7 +7,7 @@ input_dir = "E:\\IIT Kanpur\\6th Semester (JAN'21 - APR'21)\\EE698R\\MIR-1K\\Und
 output_dir = "E:\\IIT Kanpur\\6th Semester (JAN'21 - APR'21)\\EE698R\\Project\\"
 
 frame_rate = 16000
-time = 1
+time = 2
 INPUT_SIZE = time*frame_rate
 i = 1
 k = 500
@@ -28,11 +28,12 @@ for file in os.listdir(input_dir):
         write(output_dir + "Song\\song_" + str(i) + ".wav", frame_rate, song_array[l*INPUT_SIZE: (l+1)*INPUT_SIZE])
         i = i + 1
     
-    # if song_array.shape[0]%INPUT_SIZE >= INPUT_SIZE//4:
-    #     write(output_dir + "Music\\music_" + str(i) + ".wav", frame_rate, music_array[-INPUT_SIZE: ])
-    #     write(output_dir + "Vocal\\vocal_" + str(i) + ".wav", frame_rate, vocal_array[-INPUT_SIZE: ])
-    #     write(output_dir + "Song\\song_" + str(i) + ".wav", frame_rate, song_array[-INPUT_SIZE: ])
-    #     i = i + 1
+    if song_array.shape[0]%INPUT_SIZE >= INPUT_SIZE//2:
+        write(output_dir + "Music\\music_" + str(i) + ".wav", frame_rate, music_array[-INPUT_SIZE: ])
+        write(output_dir + "Vocal\\vocal_" + str(i) + ".wav", frame_rate, vocal_array[-INPUT_SIZE: ])
+        write(output_dir + "Song\\song_" + str(i) + ".wav", frame_rate, song_array[-INPUT_SIZE: ])
+        i = i + 1
+    
     if i>k:
         print(str(i-1) + " files stored in the input database")
         k = k + 500

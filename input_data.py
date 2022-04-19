@@ -43,5 +43,7 @@ def read_data(n_samples=-1):
         return input_data[indices], output_data
 
 input, output = read_data()
+print("Input Dataset Shape : " + str(input.shape))
+print("Output Dataset Shape : " + str(output.shape))
 np.save(dir+"input_data", input)
 np.save(dir+"output_data", output)
