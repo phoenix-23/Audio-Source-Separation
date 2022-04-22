@@ -4,14 +4,13 @@ import model
 
 dir = "E:\\IIT Kanpur\\6th Semester (JAN'21 - APR'21)\\EE698R\\Project\\"
 
-model = model.WaveUNet([10, 5], [6, 6], 2)
+model = model.WaveUNet([10, 5], [24, 24], 9)
 print("----------Model Created----------")
 
-input_data = np.load(dir+"input_data.npy")
-output_data = np.load(dir+"output_data.npy")
+input_data = np.load(dir+"train_input_data.npy")
+output_data = np.load(dir+"train_output_data.npy")
 print("----------Data Retrieved----------")
 
-#model.model(16000).summary()
 model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=0.001), 
               loss=tf.keras.losses.MeanSquaredError(),
               metrics = [tf.keras.metrics.MeanSquaredError()])
