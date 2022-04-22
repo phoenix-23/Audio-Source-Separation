@@ -4,7 +4,7 @@ import model
 
 dir = "E:\\IIT Kanpur\\6th Semester (JAN'21 - APR'21)\\EE698R\\Project\\"
 
-model = model.WaveUNet(10, 4, 1)
+model = model.WaveUNet([10, 5], [6, 6], 2)
 print("----------Model Created----------")
 
 input_data = np.load(dir+"input_data.npy")
@@ -20,4 +20,4 @@ print("----------Model Compiled----------")
 model.fit(input_data, output_data, epochs=10, batch_size=32, validation_split=0.2, use_multiprocessing=True)
 print("----------Model Fitted----------")
 
-model.save(dir+'model')
+model.save_weights(dir+'Model\\model', save_format='tf')

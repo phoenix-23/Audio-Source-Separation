@@ -3,6 +3,7 @@ from pydub import AudioSegment
 import numpy as np
 
 dir = "E:\\IIT Kanpur\\6th Semester (JAN'21 - APR'21)\\EE698R\\Project\\"
+MAX_APLITUDE = 32767
 
 def read_data(n_samples=-1):
     input_data = []
@@ -28,18 +29,18 @@ def read_data(n_samples=-1):
         output_data_vocal.append(vocal_array.reshape((-1, 1)))
     
     input_data = np.asarray(input_data)
-    input_data = input_data / input_data.max()
+    input_data = input_data / MAX_APLITUDE
     output_data_music = np.asarray(output_data_music)
     output_data_vocal = np.asarray(output_data_vocal)
     
     if(n_samples==-1):
         output_data = np.concatenate((output_data_music, output_data_vocal), axis=2)
-        output_data = output_data / output_data.max()
+        output_data = output_data / MAX_APLITUDE
         return input_data, output_data
     else:
         indices = np.sort(np.random.choice(len(input_data), n_samples, replace=False))
         output_data = np.concatenate((output_data_music[indices], output_data_vocal[indices]), axis=2)
-        output_data = output_data / output_data.max()
+        output_data = output_data / MAX_APLITUDE
         return input_data[indices], output_data
 
 input, output = read_data()
