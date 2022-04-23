@@ -77,12 +77,12 @@ class WaveUNet(tf.keras.Model):
         x = crop_and_concat(input_tensor, x)
         x = self.conv1d_US(x, training=training)
         
-        diff = input_tensor.shape[1] - x.shape[1] 
-        if diff%2==0: 
-            pad = (diff//2, diff//2)
-        else:
-            pad = (diff//2, diff//2+1)
-        x = tf.keras.layers.ZeroPadding1D(padding=pad)(x)
+        # diff = input_tensor.shape[1] - x.shape[1] 
+        # if diff%2==0: 
+        #     pad = (diff//2, diff//2)
+        # else:
+        #     pad = (diff//2, diff//2+1)
+        # x = tf.keras.layers.ZeroPadding1D(padding=pad)(x)
 
         return x
 
