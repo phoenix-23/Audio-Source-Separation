@@ -30,10 +30,12 @@ class DS_block(tf.keras.layers.Layer):
 
     def __init__(self, filters, kernel_size):
         super(DS_block, self).__init__()
-        self.conv1d = tf.keras.layers.Conv1D(filters=filters, kernel_size=kernel_size, strides=1, activation="LeakyReLU")
+        self.conv1d = tf.keras.layers.Conv1D(filters=filters, kernel_size=kernel_size, strides=1)
+        self.norm = tf.keras.layers.BatchNormalization()
     
     def call(self, input_tensor, training=False):
         x = self.conv1d(input_tensor, training=training)
+        x = self.norm(x, training=training)
         y = x[:,::2,:]
         return x, y
 
@@ -41,13 +43,14 @@ class US_block(tf.keras.layers.Layer):
 
     def __init__(self, filters, kernel_size):
         super(US_block, self).__init__()
-        self.upsample = tf.keras.layers.UpSampling1D(size=2)
-        self.conv1d = tf.keras.layers.Conv1D(filters=filters, kernel_size=kernel_size, strides=1, activation="LeakyReLU")
+        self.conv1d = tf.keras.layers.Conv1D(filters=filters, kernel_size=kernel_size, strides=1)
+        self.norm = tf.keras.layers.BatchNormalization()
     
     def call(self, input_tensor, extra_tensor, training=False):
         x = upsample(input_tensor)
         x = crop_and_concat(extra_tensor, x)
         x = self.conv1d(x, training=training)
+        x = self.norm(x, training=training)
         return x
 
 class WaveUNet(tf.keras.Model):
@@ -59,30 +62,28 @@ class WaveUNet(tf.keras.Model):
         self.L = L
         self.DS = [DS_block(filters=filters[0]*(i+1), kernel_size=kernel_size[0]) for i in range(self.L)]
         self.US = [US_block(filters=filters[1]*(i+1), kernel_size=kernel_size[1]) for i in range(self.L)]
-        self.conv1d_DS = tf.keras.layers.Conv1D(filters=filters[0]*(L+1), kernel_size=kernel_size[0], strides=1, activation="LeakyReLU")
+        self.conv1d_DS = tf.keras.layers.Conv1D(filters=filters[0]*(L+1), kernel_size=kernel_size[0], strides=1)
         self.conv1d_US = tf.keras.layers.Conv1D(filters=2, kernel_size=1, strides=1, activation="tanh")
+        self.norm_input = tf.keras.layers.BatchNormalization()
+        self.norm_DS = tf.keras.layers.BatchNormalization()
+        self.norm_US = tf.keras.layers.BatchNormalization()
 
     def call(self, input_tensor, training=False):
-        x = input_tensor
+        x = self.norm_input(input_tensor, training=training)
         history = []
         for i in range(self.L):
             q, x = self.DS[i](x, training=training)
             history.append(q)
         
         x = self.conv1d_DS(x, training=training)
+        x = self.norm_DS(x, training=training)
 
         for i in range(self.L-1, -1, -1):
             x = self.US[i](x, history[i], training=training)
 
         x = crop_and_concat(input_tensor, x)
         x = self.conv1d_US(x, training=training)
-        
-        # diff = input_tensor.shape[1] - x.shape[1] 
-        # if diff%2==0: 
-        #     pad = (diff//2, diff//2)
-        # else:
-        #     pad = (diff//2, diff//2+1)
-        # x = tf.keras.layers.ZeroPadding1D(padding=pad)(x)
+        x = self.norm_US(x, training=training)
 
         return x
 
@@ -90,5 +91,6 @@ class WaveUNet(tf.keras.Model):
         x = tf.keras.Input(shape=(data_size, 1))
         return tf.keras.Model(inputs=[x], outputs=self.call(x))
 
-# model = WaveUNet([10, 5], [6, 6], 2)
-# model.model(16000).summary()
+model = WaveUNet([15, 5], [24, 24], 5)
+model.model(8000).summary()
+

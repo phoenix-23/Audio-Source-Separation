@@ -6,5 +6,3 @@ Course project for **EE698R: Advanced Topics In Machine Learning** offered in Fa
  
 ![image](https://user-images.githubusercontent.com/60062252/163847113-b33abe93-e6fb-42c2-906d-aa0f8a54e770.png)
 
-- Input Dataset (around 8000 files of 1 sec length each sampled at 16 kHz) - [link](https://drive.google.com/file/d/1hUomPJyG0d9T_xil_R4jObzCNQuBtATU/view?usp=sharing)
-- Output Dataset (around 16000 files - 8000 for background music and 8000 for vocals - of 1 sec length each sampled at 16 kHz) - [link](https://drive.google.com/file/d/1ttJud2MLyjmbs9nqYIAAQESKkORNAGBd/view?usp=sharing)

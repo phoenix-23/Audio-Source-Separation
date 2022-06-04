@@ -3,18 +3,12 @@ from scipy.io.wavfile import write
 import numpy as np
 import os
 
-"""
-This file reads all the audio files from 'MIR-1K\UndividedWavfile' folder 
-where audio clips have duration ranging from 22 secs to 126 secs.
-All audio clips were clipped to 1 sec samples and the input and output dataset files were formed
-by merging and separating the the two channels from the undivided Wav files respectively
-"""
 
 input_dir = "E:\\IIT Kanpur\\6th Semester (JAN'21 - APR'21)\\EE698R\\MIR-1K\\UndividedWavfile\\"
 output_dir = "E:\\IIT Kanpur\\6th Semester (JAN'21 - APR'21)\\EE698R\\Project\\"
 
-frame_rate = 16000
-time = 1
+frame_rate = 8000
+time = 2
 INPUT_SIZE = time*frame_rate
 i = 1
 k = 500
@@ -22,11 +16,16 @@ k = 500
 for file in os.listdir(input_dir):
     f = os.path.join(input_dir, file)
     song = AudioSegment.from_file(file=f, format="wav")
+    song.set_frame_rate(frame_rate)
     music, vocal = song.split_to_mono()
     song = song.set_channels(1)
     song_array = np.asarray(song.get_array_of_samples())
     music_array = np.asarray(music.get_array_of_samples())
     vocal_array = np.asarray(vocal.get_array_of_samples())
+    print(song_array.shape)
+    print(music_array.shape)
+    print(vocal_array.shape)
+    break
 
     n_items = song_array.shape[0]//INPUT_SIZE
     for l in range(n_items):

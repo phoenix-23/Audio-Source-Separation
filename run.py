@@ -31,5 +31,5 @@ output_array = np.int16(my_model(input_array)*MAX_AMPLITUDE)
 vocal = output_array[:, :, 0].flatten()
 music = output_array[:, :, 0].flatten()
 
-write("vocal.wav", frame_rate, vocal)
-write("music.wav", frame_rate, music)
+write("vocal.wav", 7685, vocal)
+write("music.wav", 7685, music)
